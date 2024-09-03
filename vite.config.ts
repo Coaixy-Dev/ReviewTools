@@ -10,7 +10,10 @@ export default defineConfig({
       userscript: {
         icon: 'https://vitejs.dev/logo.svg',
         namespace: 'npm/vite-plugin-monkey',
-        match: ['https://mooc1.chaoxing.com/*'],
+        match: ['https://mooc1.chaoxing.com/*',
+            "https://mooc1-api.chaoxing.com/*"
+        ],
+          version: '1.0.0',
       },
     }),
   ],
