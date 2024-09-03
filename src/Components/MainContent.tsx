@@ -1,17 +1,26 @@
 import {Component, createEffect, createSignal} from "solid-js";
 import styles from '../Styles/App.module.css';
-import {getMiddleStr} from "../utils";
+import {
+    ALL_DONE_COUNT, ALL_ERROR_COUNT,
+    ALL_QUESTION_COUNT,
+    getMiddleStr,
+    set_ALL_DONE_COUNT,
+    set_ALL_ERROR_COUNT,
+    set_ALL_QUESTION_COUNT
+} from "../utils";
 
 
 const mainContent: Component = () => {
     const [display, setDisplay] = createSignal(false)
     const [answerDom, setAnswerDom] = createSignal<Array<Element>>([])
     const [questionDom, setQuestionDom] = createSignal<Array<Element>>([])
+    const doneQuestionList = new Set()
     const displayButtonName = () => {
         return !display() ? "隐藏" : "显示"
     }
     const initialTool = (answerElements: NodeListOf<Element>) => {
         setAnswerDom(answerElements.length > 0 ? Array.from(answerElements) : [])
+        set_ALL_QUESTION_COUNT(answerDom().length)
         answerDom()?.forEach(element => {
             const temp = element.parentElement
             if (temp) {
@@ -42,15 +51,22 @@ const mainContent: Component = () => {
              */
             for (let i = 0; i < element.children.length; i++) {
                 element.children[i].addEventListener("click", () => {
-                    const optionDom = (element.children[i] as HTMLElement)
-                    // 选择中还包含了选项，因此要用选择去检测答案
-                    if (optionDom.innerText.split(". ")[1].includes(answerValue[0])) {
-                        optionDom.style.color = "DarkGreen"
-                    } else {
-                        optionDom.style.color = "red"
+                    if (display()) {
+                        if (!doneQuestionList.has(index)) {
+                            set_ALL_DONE_COUNT(ALL_DONE_COUNT() + 1)
+                            const optionDom = (element.children[i] as HTMLElement)
+                            // 选择中还包含了选项，因此要用选择去检测答案
+                            if (optionDom.innerText.split(". ")[1].includes(answerValue[0])) {
+                                optionDom.style.color = "DarkGreen"
+                            } else {
+                                optionDom.style.color = "red"
+                                set_ALL_ERROR_COUNT(ALL_ERROR_COUNT() + 1)
+                            }
+                            optionDom.style.fontWeight = "bold"
+                            tAnswerDom.style.display = ""
+                        }
+                        doneQuestionList.add(index)
                     }
-                    optionDom.style.fontWeight = "bold"
-                    tAnswerDom.style.display = ""
                 })
             }
         })
