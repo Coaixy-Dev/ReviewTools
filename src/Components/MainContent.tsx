@@ -23,6 +23,9 @@ const mainContent: Component = () => {
         })
         // 添加点击事件
         questionDom().forEach((element, index) => {
+            /**
+             * 获取答案
+             */
             const tAnswerDom = answerDom()[index] as HTMLElement;
             let answerValue: Array<string> = Array.from([])
             tAnswerDom.querySelectorAll(".colorGreen.marginRight40.fl").forEach(element => {
@@ -33,10 +36,15 @@ const mainContent: Component = () => {
                     }
                 }
             })
+            /**
+             * 循环所有选项
+             * 并添加单击事件
+             */
             for (let i = 0; i < element.children.length; i++) {
                 element.children[i].addEventListener("click", () => {
                     const optionDom = (element.children[i] as HTMLElement)
-                    if (optionDom.innerText.includes(answerValue[0])) {
+                    // 选择中还包含了选项，因此要用选择去检测答案
+                    if (optionDom.innerText.split(". ")[1].includes(answerValue[0])) {
                         optionDom.style.color = "DarkGreen"
                     } else {
                         optionDom.style.color = "red"
