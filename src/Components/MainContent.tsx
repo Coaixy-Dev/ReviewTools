@@ -1,5 +1,5 @@
 import {Component, createEffect, createSignal} from "solid-js";
-import styles from './App.module.css';
+import styles from '../Styles/App.module.css';
 const mainContent: Component = () => {
     const [display,setDisplay] = createSignal(false)
     const [answerDom,setAnswerDom] = createSignal<NodeListOf<Element>>()

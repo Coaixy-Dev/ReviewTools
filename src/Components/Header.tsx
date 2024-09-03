@@ -1,5 +1,5 @@
 import {Component} from "solid-js";
-import styles from './App.module.css';
+import styles from '../Styles/App.module.css';
 const Header:Component = ()=>{
     return (
         <div class={styles.header}>
