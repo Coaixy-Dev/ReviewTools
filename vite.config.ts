@@ -14,6 +14,9 @@ export default defineConfig({
             "https://mooc1-api.chaoxing.com/*"
         ],
           version: '1.0.0',
+          author:"Coaixy",
+          website:"https://www.lawliet.ren",
+          description:"超星学习通复习助手,重新做一遍题目",
       },
     }),
   ],
